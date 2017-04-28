@@ -44,9 +44,9 @@ public class Main {
 
     System.out.println(stringGraph.toString());
 
-    DirectedGraph<URL, DefaultEdge> hrefGraph = createHrefGraph();
+    //DirectedGraph<URL, DefaultEdge> hrefGraph = createHrefGraph();
 
-    System.out.println(hrefGraph.toString());
+    //System.out.println(hrefGraph.toString());
   }
 
   private static DirectedGraph<URL, DefaultEdge> createHrefGraph() {
