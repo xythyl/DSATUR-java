@@ -1,7 +1,11 @@
 package com.company;
 
-import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
+import java.net.*;
+
+import org.jgrapht.*;
+import org.jgrapht.graph.*;
+
+//import org.jgrapht.Graphs;
 
 /*
     procedure GREEDY ALGORITHM(V)
@@ -35,9 +39,71 @@ import org.jgrapht.Graphs;
 
 public class Main {
 
+  public static void main(String [] args) {
+    UndirectedGraph<String, DefaultEdge> stringGraph = createStringGraph();
+
+    System.out.println(stringGraph.toString());
+
+    DirectedGraph<URL, DefaultEdge> hrefGraph = createHrefGraph();
+
+    System.out.println(hrefGraph.toString());
+  }
+
+  private static DirectedGraph<URL, DefaultEdge> createHrefGraph() {
+    DirectedGraph<URL, DefaultEdge> g =
+        new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
+
+    try {
+      URL amazon = new URL("[http://www.amazon.com](http://www.amazon.com)");
+      URL yahoo = new URL("[http://www.yahoo.com](http://www.yahoo.com)");
+      URL ebay = new URL("[http://www.ebay.com](http://www.ebay.com)");
+
+      // add the vertices
+      g.addVertex(amazon);
+      g.addVertex(yahoo);
+      g.addVertex(ebay);
+
+      // add edges to create linking structure
+      g.addEdge(yahoo, amazon);
+      g.addEdge(yahoo, ebay);
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    }
+
+    return g;
+  }
+
+  private static UndirectedGraph<String, DefaultEdge> createStringGraph()
+  {
+    UndirectedGraph<String, DefaultEdge> g =
+        new SimpleGraph<String, DefaultEdge>(DefaultEdge.class);
+
+    String v1 = "v1";
+    String v2 = "v2";
+    String v3 = "v3";
+    String v4 = "v4";
+
+    // add the vertices
+    g.addVertex(v1);
+    g.addVertex(v2);
+    g.addVertex(v3);
+    g.addVertex(v4);
+
+    // add edges to create a circuit
+    g.addEdge(v1, v2);
+    g.addEdge(v2, v3);
+    g.addEdge(v3, v4);
+    g.addEdge(v4, v1);
+
+    return g;
+  }
+
+
   public static void dsatur(int[][] V) {
 
   }
+
+
 /*
   public static int [] getOrder(int [][] V ) {
 
@@ -67,7 +133,7 @@ public class Main {
     return count;
   }
 
-  public static void main(String[] args) {
+  public static void makeGraph(String[] args) {
 	// write your code here
     int[][] V = new int[][]{
         {0,1,0,0,1}, //1: 2, 5
