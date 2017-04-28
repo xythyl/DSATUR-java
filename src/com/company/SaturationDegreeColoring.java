@@ -3,9 +3,6 @@ package com.company;
 /**
  * Created by Xx-M4 on 4/27/2017.
  */
-public class DegSatur {
-
-}
 
 /*
  * (C) Copyright 2017-2017, by Dimitrios Michail and Contributors.
@@ -25,16 +22,16 @@ public class DegSatur {
  * the Eclipse Foundation.
  */
 
-    import java.lang.reflect.Array;
-    import java.util.BitSet;
-    import java.util.Comparator;
-    import java.util.HashMap;
-    import java.util.Map;
-    import java.util.Objects;
+import java.lang.reflect.Array;
+import java.util.BitSet;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-    import org.jgrapht.Graph;
-    import org.jgrapht.Graphs;
-    import org.jgrapht.alg.interfaces.VertexColoringAlgorithm;
+import org.jgrapht.Graph;
+import org.jgrapht.Graphs;
+import org.jgrapht.alg.interfaces.VertexColoringAlgorithm;
 
 /**
  * The Dsatur greedy coloring algorithm.
