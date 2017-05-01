@@ -135,7 +135,6 @@ public class DegSatColor<V, E>
 
       // color the vertex
       colors.put(v, c);
-      System.out.println(c);
 
       // partial cleanup to save some space
       adjColors.remove(v);
@@ -173,6 +172,108 @@ public class DegSatColor<V, E>
     return new ColoringImpl<>(colors, maxColor + 1);
   }
 
+  public Coloring<V> getLimitedColoring(int x)
+  {
+        /*
+         * Initialize data structures
+         */
+    int n = graph.vertexSet().size();
+    int maxColor = -1;
+    Map<V, Integer> colors = new HashMap<>(n);
+    Map<V, BitSet> adjColors = new HashMap<>(n);
+    Map<V, Integer> saturation = new HashMap<>(n);
+
+    System.out.println("Number of vertices: " + n);
+
+        /*
+         * Compute degrees, available colors, and maximum degree.
+         */
+    int maxDegree = 0;
+    Map<V, Integer> degree = new HashMap<>(n);
+    for (V v : graph.vertexSet()) {
+      int d = graph.edgesOf(v).size();
+
+      //System.out.println(d);
+
+      degree.put(v, d);
+      maxDegree = Math.max(maxDegree, d); //find max saturation degree
+      adjColors.put(v, new BitSet()); //populate adjColors with vertices
+
+      System.out.println("Degree of " + v + ": " + d);
+
+      saturation.put(v, 0);
+    }
+
+        /*
+         * Initialize heap
+         */
+    Heap heap = new Heap(n, new DSaturComparator(saturation, degree));
+    Map<V, HeapHandle> handles = new HashMap<>();
+    for (V v : graph.vertexSet()) {
+      handles.put(v, new HeapHandle(v));
+    }
+    heap.bulkInsert(
+        handles.values().toArray((HeapHandle[]) Array.newInstance(HeapHandle.class, 0)));
+
+        /*
+         * Color vertices
+         */
+    while (heap.size() > 0) {
+
+      System.out.println("Heap Size: " + heap.size());
+
+      V v = heap.deleteMin().vertex;
+
+      // find first free color
+      BitSet used = adjColors.get(v);
+
+      System.out.println("Used: " + used);
+
+      int c = used.nextClearBit(0);
+      maxColor = Math.max(maxColor, c);
+
+      // color the vertex
+      colors.put(v, c);
+
+      //for debug only
+      System.out.println("c: " + c);
+      System.out.println("v: " + v);
+
+      // partial cleanup to save some space
+      adjColors.remove(v);
+
+      // update neighbors
+      for (E e : graph.edgesOf(v)) {
+        V u = Graphs.getOppositeVertex(graph, e, v);
+
+        if (!colors.containsKey(u)) {
+          // update used colors
+          int uSaturation = saturation.get(u);
+          BitSet uAdjColors = adjColors.get(u);
+
+          HeapHandle uHandle = handles.get(u);
+          if (uAdjColors.get(c)) {
+            // same saturation, degree decrease
+            // remove and reinsert
+            heap.delete(uHandle);
+            degree.put(u, degree.get(u) - 1);
+            heap.insert(uHandle);
+          } else {
+            // saturation increase, degree decrease
+            uAdjColors.set(c);
+            saturation.put(u, uSaturation + 1);
+            degree.put(u, degree.get(u) - 1);
+
+            // simple fix upwards inside heap since priority increased
+            heap.fixup(uHandle);
+          }
+        }
+      }
+
+    }
+
+    return new ColoringImpl<>(colors, maxColor + 1);
+  }
   /*
    * Special case comparator for the DSatur algorithm. Compares first by saturation and then by
    * degree (maximum is better in both cases).
