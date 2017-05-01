@@ -67,7 +67,7 @@ import org.jgrapht.alg.interfaces.VertexColoringAlgorithm;
  *
  * @author Dimitrios Michail
  */
-public class SaturationDegreeColoring<V, E>
+public class DegSatColor<V, E>
     implements VertexColoringAlgorithm<V>
 {
   private final Graph<V, E> graph;
@@ -77,7 +77,7 @@ public class SaturationDegreeColoring<V, E>
    *
    * @param graph the input graph
    */
-  public SaturationDegreeColoring(Graph<V, E> graph)
+  public DegSatColor(Graph<V, E> graph)
   {
     this.graph = Objects.requireNonNull(graph, "Graph cannot be null");
   }

@@ -3,7 +3,11 @@ package com.company;
 import java.net.*;
 
 import org.jgrapht.*;
+import org.jgrapht.alg.interfaces.VertexColoringAlgorithm.ColoringImpl;
+import org.jgrapht.generate.EmptyGraphGenerator;
 import org.jgrapht.graph.*;
+import com.company.DegSatColor.*;
+import org.jgrapht.alg.interfaces.VertexColoringAlgorithm.*;
 
 //import org.jgrapht.Graphs;
 
@@ -42,7 +46,11 @@ public class Main {
   public static void main(String [] args) {
     UndirectedGraph<String, DefaultEdge> stringGraph = createStringGraph();
 
+    DegSatColor<String ,DefaultEdge> degSatGraph = new DegSatColor<>(stringGraph);
+    Coloring<String> degSatCol = degSatGraph.getColoring();
+
     System.out.println(stringGraph.toString());
+    System.out.println(degSatCol.toString());
 
     //DirectedGraph<URL, DefaultEdge> hrefGraph = createHrefGraph();
 
@@ -83,6 +91,7 @@ public class Main {
     String v3 = "v3";
     String v4 = "v4";
     String v5 = "v5";
+    String v6 = "v6";
 
     // add the vertices
     g.addVertex(v1);
@@ -90,16 +99,17 @@ public class Main {
     g.addVertex(v3);
     g.addVertex(v4);
     g.addVertex(v5);
+    g.addVertex(v6);
 
     // add edges to create a circuit
     g.addEdge(v1, v2);
-    g.addEdge(v1, v3);
+    g.addEdge(v1, v6);
     g.addEdge(v2, v3);
-    g.addEdge(v2, v4);
-    g.addEdge(v2, v5);
-    g.addEdge(v3, v5);
+    g.addEdge(v2, v6);
     g.addEdge(v3, v4);
     g.addEdge(v4, v5);
+    g.addEdge(v4, v6);
+    g.addEdge(v6, v5);
 
     return g;
   }
