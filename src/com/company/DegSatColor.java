@@ -135,6 +135,7 @@ public class DegSatColor<V, E>
 
       // color the vertex
       colors.put(v, c);
+      System.out.println(c);
 
       // partial cleanup to save some space
       adjColors.remove(v);
