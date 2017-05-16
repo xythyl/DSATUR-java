@@ -172,7 +172,7 @@ public class DegSatColor<V, E>
     return new ColoringImpl<>(colors, maxColor + 1);
   }
 
-  public Coloring<V> getLimitedColoring(int x)
+  public Coloring<V> getColoringTieBreaker(int x)
   {
         /*
          * Initialize data structures
@@ -200,6 +200,7 @@ public class DegSatColor<V, E>
       adjColors.put(v, new BitSet()); //populate adjColors with vertices
 
       System.out.println("Degree of " + v + ": " + d);
+      //System.out.println("adjColors of " + v + ": " + adjColors.get(v));
 
       saturation.put(v, 0);
     }
@@ -227,9 +228,13 @@ public class DegSatColor<V, E>
       // find first free color
       BitSet used = adjColors.get(v);
 
-      System.out.println("Used: " + used);
+      System.out.println("Used from " + v + ": " + used);
 
       int c = used.nextClearBit(0);
+      if (x > 0) {
+        c = used.nextClearBit(c+1);
+        x = x - 1;
+      }
       maxColor = Math.max(maxColor, c);
 
       // color the vertex
