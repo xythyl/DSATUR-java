@@ -47,10 +47,15 @@ public class Main {
     UndirectedGraph<String, DefaultEdge> stringGraph = createStringGraph();
 
     DegSatColor<String ,DefaultEdge> degSatGraph = new DegSatColor<>(stringGraph);
-    Coloring<String> degSatCol = degSatGraph.getColoringTieBreaker(1);
+    Coloring<String> degSatCol = degSatGraph.getColoringTieBreaker(3);
+    Coloring<String> degSatCol1 = degSatGraph.getColoringTieBreaker(2);
+    Coloring<String> degSatCol2 = degSatGraph.getColoringTieBreaker(1);
 
     System.out.println(stringGraph.toString());
+
     System.out.println(degSatCol.toString());
+    System.out.println(degSatCol1.toString());
+    System.out.println(degSatCol2.toString());
 
     //DirectedGraph<URL, DefaultEdge> hrefGraph = createHrefGraph();
 
@@ -91,8 +96,10 @@ public class Main {
     String v3 = "v3";
     String v4 = "v4";
     String v5 = "v5";
-    //String v6 = "v6";
-    //String v7 = "v7";
+    String v6 = "v6";
+    String v7 = "v7";
+    String v8 = "v8";
+    String v9 = "v9";
 
     // add the vertices
     g.addVertex(v1);
@@ -100,22 +107,27 @@ public class Main {
     g.addVertex(v3);
     g.addVertex(v4);
     g.addVertex(v5);
-    //g.addVertex(v6);
-    //g.addVertex(v7);
+    g.addVertex(v6);
+    g.addVertex(v7);
+    g.addVertex(v8);
+    g.addVertex(v9);
 
     // add edges to create a circuit
     g.addEdge(v1, v2);
     g.addEdge(v1, v3);
-    //g.addEdge(v1, v6);
-    g.addEdge(v1, v5);
-    g.addEdge(v2, v4);
-    //g.addEdge(v2, v7);
-    //g.addEdge(v2, v6);
     g.addEdge(v2, v3);
-    //g.addEdge(v4, v7);
+
+    g.addEdge(v3, v5);
+
+    g.addEdge(v4, v6);
     g.addEdge(v4, v5);
-    //g.addEdge(v3, v5);
-    g.addEdge(v3, v4);
+    g.addEdge(v5, v6);
+
+    g.addEdge(v5, v7);
+
+    g.addEdge(v7, v8);
+    g.addEdge(v7, v9);
+    g.addEdge(v9, v8);
 
     return g;
   }

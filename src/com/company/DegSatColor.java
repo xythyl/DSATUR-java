@@ -183,6 +183,8 @@ public class DegSatColor<V, E>
     Map<V, BitSet> adjColors = new HashMap<>(n);
     Map<V, Integer> saturation = new HashMap<>(n);
 
+    int[] cab = new int[n]; //Cabinet size
+
     System.out.println("Number of vertices: " + n);
 
         /*
@@ -230,11 +232,22 @@ public class DegSatColor<V, E>
 
       System.out.println("Used from " + v + ": " + used);
 
+      /*
       int c = used.nextClearBit(0);
       if (x > 0) {
         c = used.nextClearBit(c+1);
         x = x - 1;
       }
+      */
+
+      //Code for limiting # of each color/size of shelf
+
+      int c = used.nextClearBit(0);
+      while(cab[c] >= x && x > 0){
+        c = used.nextClearBit(c+1);
+      }
+      cab[c] = cab[c] + 1;
+
       maxColor = Math.max(maxColor, c);
 
       // color the vertex
